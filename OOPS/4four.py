@@ -18,37 +18,57 @@ class Employee:                                                                 
     def apply_raise(self):
         self.pay = int(self.pay * self.raise_amount)
 
-    @classmethod                                                                    #if variables in classmethod is changed then it changes for all the instances
-    def set_raise_amt(cls, amount):                                                 #class method automatically pass the class (cls)as the first argument
-        cls.raise_amount = amount
+class Developer(Employee):                                                           #Developer is the subclass of the parent class Employee
+    raise_amount = 1.10
 
-    @classmethod
-    def from_string(cls, emp_str):                                                  #classmethod as an alternative  constructor
-        first, last, pay = emp_str.split("-")
-        return cls(first, last, pay)                                                #if we are not using cls class variable then there's no point in using classmethod
-    
-    @staticmethod
-    def is_workday(day):                                                            #static method dont pass any arguments automatically
-        if day.weekday() == 5 or day.weekday() == 6:
-            return False
+    def __init__(self, first, last, pay, prog_lang):
+        super().__init__(first, last, pay)   
+        self.prog_lang = prog_lang
+
+class Manager(Employee):
+
+    def __init__(self, first, last, pay, employees = None):
+        super().__init__(first, last, pay)
         
-        return True
+        if employees is None:
+            self.employees = []
+        else:
+            self.employees = employees 
+
+    def add_emp(self, emp):
+        if emp not in self.employees:
+            self.employees.append(emp)
+
+    def remove_emp(self, emp):
+        if emp  in self.employees:
+            self.employees.remove(emp)
+
+    def print_emp(self):
+        for emp in self.employees:
+            print("-->", emp.fullname())
     
-emp_1= Employee("Akshay", "Kudalkar", 50000)                                         #instance of a class
-emp_2= Employee("Durgest", "Kudalkar", 90000)                                        #instance of a class
+emp_1= Developer("Akshay", "Kudalkar", 50000, "Python ")                                         #instance of a class
+emp_2= Developer("Durgest", "Kudalkar", 90000, "Java")                                        #instance of a class
 
-emp_str_1 = "John-Doe-70000"
-emp_str_2 = "Amir-Khan-30000"
-emp_str_3 = "Muzaffur-Seikh-90000"
+mng_1 = Manager("Sumit", "Dhawale", 80000, [emp_1])
 
-# first, last, pay = emp_str_1.split("-")
-# new_emp_1 = Employee(first, last, pay)
+print(isinstance(mng_1, Manager))
+print(isinstance(mng_1, Employee))
+print(isinstance(mng_1, Developer))
 
-new_emp_1 = Employee.from_string(emp_str_1)
+print(issubclass(Manager, Employee))
 
-print(new_emp_1.email)
-print(new_emp_1.pay)
 
-import datetime
-my_date = datetime.date(2016, 7, 10)
-print(Employee.is_workday(my_date))
+# mng_1.print_emp()
+# mng_1.add_emp(emp_2)
+# mng_1.remove_emp(emp_1)
+# mng_1.print_emp()
+
+# print(help(Developer))
+
+# print(emp_1.email)
+# print(emp_1.prog_lang)
+
+# print(emp_1.pay)
+# emp_1.apply_raise()
+# print(emp_1.pay)
