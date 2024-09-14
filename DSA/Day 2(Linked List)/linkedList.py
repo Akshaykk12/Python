@@ -186,6 +186,19 @@ class LinkedList:
             ind += 1
 
         return "IndexError"
+    
+    def reverse(self):
+        prev_node = None
+        curr_node = self.head
+
+        while curr_node != None:
+            next_node = curr_node.next
+            curr_node.next = prev_node
+            prev_node = curr_node
+            curr_node = next_node
+
+        self.head = prev_node
+            
 
 # a = Node(1)
 # b = Node(34)
@@ -230,3 +243,5 @@ print(L.search(100))
 L.del_by_ind(2)
 print(L)
 print(L[1])
+L.reverse()
+print(L)
