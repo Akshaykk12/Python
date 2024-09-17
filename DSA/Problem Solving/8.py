@@ -24,7 +24,7 @@ So the discount on the shoe is the minimum.
 def min_discount(num):
     dic = {}
     for i in range(num):
-        prod, amt, dis = input().split()
+        prod, amt, dis = input().split(",")
         amt, dis = float(amt), float(dis)
         disc_val = (amt * dis)/100
         dic[disc_val] = prod
